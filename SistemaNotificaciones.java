@@ -22,11 +22,11 @@ public class SistemaNotificaciones {
         System.out.println("\nConfiguración: " + configurador.obtenerConfiguracion());
     }
 
-    public void enviarNotificacion(String destinatario, String mensaje) {
+    public void enviarNotificacion(String destinatario, String mensaje) throws InterruptedException {
         enviarNotificacionRec(destinatario, mensaje, 0);
     }
 
-    private void enviarNotificacionRec(String destinatario, String mensaje, int index) {
+    private void enviarNotificacionRec(String destinatario, String mensaje, int index) throws InterruptedException {
         if (index > factories.size()) {
             System.out.println("Error: No hay conexión con ningun proveedor");
             return;
@@ -36,11 +36,15 @@ public class SistemaNotificaciones {
             String mensajeFormateado = plantilla.aplicarPlantilla(mensaje);
             notificador.enviar(destinatario, mensajeFormateado);
         } else {
-            System.out.println("Error: No hay conexión con el proveedor se intenará cambiar de proveedor...");
+            System.out.println("Error: No hay conexión con el proveedor se intentará cambiar de proveedor...");
             inicializar(factories.get(index));
-            Scanner sc = new Scanner(System.in);
-            //FALTA AQUI OBTENER PARAMETROS NUEVOS Y DESTINATARIO NUEVO;
             configurarSistema(factories.get(index).getParametros());
+            System.out.println("Update: Se esta estableciendo una nueva conexion con parametros de emergencia con el nuevo " +
+                    "proveedor...");
+            Thread.sleep(2000);
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Update: Ingrese el nuevo destinatario para el nuevo proveedor:");
+            destinatario = sc.nextLine();
             enviarNotificacionRec(destinatario, mensaje, index+1);
         }
     }
