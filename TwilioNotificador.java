@@ -11,7 +11,7 @@ public class TwilioNotificador implements Notificador {
     public boolean verificarConexion() {
         System.out.println("[Twilio] Verificando señal...");
         //Simulacion de fallo
-        boolean hayFallo = true;
-        return hayFallo;
+        boolean noFallo = true;
+        return noFallo;
     }
 }

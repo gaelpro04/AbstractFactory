@@ -1,8 +1,8 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SistemaNotificaciones {
     private ArrayList<NotificacionFactory> factories;
-    private int index = 0;
     private Notificador notificador;
     private Configurador configurador;
     private Plantilla plantilla;
@@ -27,7 +27,7 @@ public class SistemaNotificaciones {
     }
 
     private void enviarNotificacionRec(String destinatario, String mensaje, int index) {
-        if (index >= factories.size()) {
+        if (index > factories.size()) {
             System.out.println("Error: No hay conexión con ningun proveedor");
             return;
         }
@@ -38,6 +38,8 @@ public class SistemaNotificaciones {
         } else {
             System.out.println("Error: No hay conexión con el proveedor se intenará cambiar de proveedor...");
             inicializar(factories.get(index));
+            Scanner sc = new Scanner(System.in);
+            //FALTA AQUI OBTENER PARAMETROS NUEVOS Y DESTINATARIO NUEVO;
             configurarSistema(factories.get(index).getParametros());
             enviarNotificacionRec(destinatario, mensaje, index+1);
         }
