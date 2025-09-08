@@ -1,7 +1,6 @@
 public class SendGridFactory implements NotificacionFactory {
 
-    private SendGridNotificador sdNotificador;
-    private SendGridConfigurador sdConfigurador;
+    private final String[] parametros = {"SG-53472E78","fallos.com"};
 
     @Override
     public Notificador crearNotificador() {
@@ -16,5 +15,10 @@ public class SendGridFactory implements NotificacionFactory {
     @Override
     public Plantilla crearPlantilla() {
         return new SendGridPlantilla();
+    }
+
+    @Override
+    public String[] getParametros() {
+        return parametros;
     }
 }

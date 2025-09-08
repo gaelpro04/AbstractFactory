@@ -1,14 +1,17 @@
+import java.util.ArrayList;
+
 public class SistemaNotificaciones {
-    private NotificacionFactory factory;
+    private ArrayList<NotificacionFactory> factories;
+    private int index = 0;
     private Notificador notificador;
     private Configurador configurador;
     private Plantilla plantilla;
 
-    public SistemaNotificaciones(NotificacionFactory factory) {
-        this.factory = factory;
+    public SistemaNotificaciones(ArrayList<NotificacionFactory> factories) {
+        this.factories = factories;
     }
 
-    public void inicializar() {
+    public void inicializar(NotificacionFactory factory) {
         this.notificador = factory.crearNotificador();
         this.configurador = factory.crearConfigurador();
         this.plantilla = factory.crearPlantilla();
@@ -20,11 +23,23 @@ public class SistemaNotificaciones {
     }
 
     public void enviarNotificacion(String destinatario, String mensaje) {
+        enviarNotificacionRec(destinatario, mensaje, 0);
+    }
+
+    private void enviarNotificacionRec(String destinatario, String mensaje, int index) {
+        if (index >= factories.size()) {
+            System.out.println("Error: No hay conexión con ningun proveedor");
+            return;
+        }
+
         if (notificador.verificarConexion()) {
             String mensajeFormateado = plantilla.aplicarPlantilla(mensaje);
             notificador.enviar(destinatario, mensajeFormateado);
         } else {
-            System.out.println("Error: No hay conexión con el proveedor");
+            System.out.println("Error: No hay conexión con el proveedor se intenará cambiar de proveedor...");
+            inicializar(factories.get(index));
+            configurarSistema(factories.get(index).getParametros());
+            enviarNotificacionRec(destinatario, mensaje, index+1);
         }
     }
 

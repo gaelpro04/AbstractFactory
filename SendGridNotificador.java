@@ -10,6 +10,9 @@ public class SendGridNotificador implements  Notificador {
     @Override
     public boolean verificarConexion() {
         System.out.println("[SendGrid] Verificando conexión API...");
-        return true;
+
+        //Simulacion de fallo
+        boolean noFallo = false;
+        return noFallo;
     }
 }

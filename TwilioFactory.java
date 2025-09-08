@@ -1,5 +1,7 @@
 public class TwilioFactory implements NotificacionFactory {
 
+    private final String[] parametrosEmergencia = {"EM999999","contrasenia","666-3433343"};
+
     @Override
     public Notificador crearNotificador() {
         return new TwilioNotificador();
@@ -14,4 +16,10 @@ public class TwilioFactory implements NotificacionFactory {
     public Plantilla crearPlantilla() {
         return new TwilioPlantilla();
     }
+
+    @Override
+    public String[] getParametros() {
+        return parametrosEmergencia;
+    }
+
 }

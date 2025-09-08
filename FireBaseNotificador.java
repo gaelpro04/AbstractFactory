@@ -11,6 +11,8 @@ public class FireBaseNotificador implements Notificador {
     @Override
     public boolean verificarConexion() {
         System.out.println("[FireBase] Verificando conexion WI-FI...");
-        return true;
+        //Simulacion de fallo
+        boolean hayFallo = false;
+        return hayFallo;
     }
 }
